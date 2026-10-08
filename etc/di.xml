@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="AhsanHafeez\GuestReturns\Api\Data\ReturnRequestInterface"
+                type="AhsanHafeez\GuestReturns\Model\ReturnRequest"/>
+    <preference for="AhsanHafeez\GuestReturns\Api\ReturnRequestRepositoryInterface"
+                type="AhsanHafeez\GuestReturns\Model\ReturnRequestRepository"/>
+
+    <!-- Admin grid data source -->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="guestreturns_request_listing_data_source" xsi:type="string">AhsanHafeez\GuestReturns\Model\ResourceModel\ReturnRequest\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="AhsanHafeez\GuestReturns\Model\ResourceModel\ReturnRequest\Grid\Collection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">ahsan_guest_return_request</argument>
+            <argument name="resourceModel" xsi:type="string">AhsanHafeez\GuestReturns\Model\ResourceModel\ReturnRequest</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Pure policy classes take scalars; build them through Config instead of DI -->
+    <type name="AhsanHafeez\GuestReturns\Model\GuestSession">
+        <arguments>
+            <argument name="session" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+</config>

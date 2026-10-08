@@ -1,0 +1,44 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+?>
+<div class="guest-returns guest-returns-lookup">
+    <p><?= $escaper->escapeHtml(__('Checked out without an account? Enter the details from your order confirmation to track your order or start a return.')) ?></p>
+
+    <form class="form" method="post"
+          action="<?= $escaper->escapeUrl($block->getUrl('guest-returns/lookup/post')) ?>"
+          data-mage-init='{"validation":{}}'>
+        <?= $block->getBlockHtml('formkey') ?>
+        <fieldset class="fieldset">
+            <div class="field required">
+                <label class="label" for="guest-returns-order"><span><?= $escaper->escapeHtml(__('Order number')) ?></span></label>
+                <div class="control">
+                    <input id="guest-returns-order" name="order_number" type="text" class="input-text"
+                           autocomplete="off" placeholder="000001234" maxlength="32"
+                           data-validate='{"required":true}'>
+                </div>
+            </div>
+            <div class="field required">
+                <label class="label" for="guest-returns-email"><span><?= $escaper->escapeHtml(__('Email used at checkout')) ?></span></label>
+                <div class="control">
+                    <input id="guest-returns-email" name="email" type="email" class="input-text"
+                           autocomplete="email" data-validate='{"required":true, "validate-email":true}'>
+                </div>
+            </div>
+            <div class="field required">
+                <label class="label" for="guest-returns-postcode"><span><?= $escaper->escapeHtml(__('Billing postcode')) ?></span></label>
+                <div class="control">
+                    <input id="guest-returns-postcode" name="postcode" type="text" class="input-text"
+                           autocomplete="postal-code" maxlength="20" data-validate='{"required":true}'>
+                </div>
+            </div>
+        </fieldset>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button type="submit" class="action submit primary"><span><?= $escaper->escapeHtml(__('Find my order')) ?></span></button>
+            </div>
+        </div>
+    </form>
+</div>

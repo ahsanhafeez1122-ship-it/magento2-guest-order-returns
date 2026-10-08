@@ -1,0 +1,18 @@
+<!--@subject {{trans "Return request #%request_id for order #%order_increment_id" request_id=$request_id order_increment_id=$order_increment_id}} @-->
+<!--@vars {
+"var request_id":"Return Request ID",
+"var order_increment_id":"Order Number",
+"var customer_name":"Customer Name",
+"var reason":"Reason",
+"var items_html|raw":"Items Table"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<p>{{trans "Hi %customer_name," customer_name=$customer_name}}</p>
+<p>{{trans "We have received your return request #%request_id for order #%order_increment_id." request_id=$request_id order_increment_id=$order_increment_id}}</p>
+<p><strong>{{trans "Reason:"}}</strong> {{var reason}}</p>
+{{var items_html|raw}}
+<p>{{trans "Our team will review it and email you the next steps, including how to send the items back."}}</p>
+
+{{template config_path="design/email/footer_template"}}

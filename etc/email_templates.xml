@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="guest_returns_email_customer_template" label="Guest Return: Request Received (Customer)"
+              file="customer_return.html" type="html" module="AhsanHafeez_GuestReturns" area="frontend"/>
+    <template id="guest_returns_email_status_template" label="Guest Return: Status Changed (Customer)"
+              file="status_update.html" type="html" module="AhsanHafeez_GuestReturns" area="frontend"/>
+    <template id="guest_returns_email_admin_template" label="Guest Return: New Request (Store Team)"
+              file="admin_new_return.html" type="html" module="AhsanHafeez_GuestReturns" area="frontend"/>
+</config>

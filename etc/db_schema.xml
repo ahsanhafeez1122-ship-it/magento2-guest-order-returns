@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="ahsan_guest_return_request" resource="sales" engine="innodb" comment="Guest Return Requests">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Request ID"/>
+        <column xsi:type="int" name="order_id" unsigned="true" nullable="false" comment="Sales Order ID"/>
+        <column xsi:type="varchar" name="order_increment_id" length="32" nullable="false" comment="Order Number"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" default="0" comment="Store ID"/>
+        <column xsi:type="varchar" name="customer_email" length="255" nullable="false" comment="Customer Email"/>
+        <column xsi:type="varchar" name="customer_name" length="255" nullable="true" comment="Customer Name"/>
+        <column xsi:type="varchar" name="reason" length="255" nullable="false" comment="Return Reason"/>
+        <column xsi:type="text" name="comment" nullable="true" comment="Customer Comment"/>
+        <column xsi:type="varchar" name="items_summary" length="1024" nullable="true" comment="Items Summary For Grid"/>
+        <column xsi:type="varchar" name="status" length="32" nullable="false" default="pending" comment="Status"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="AHSAN_GUEST_RETURN_REQUEST_ORDER_ID_SALES_ORDER_ENTITY_ID"
+                    table="ahsan_guest_return_request" column="order_id"
+                    referenceTable="sales_order" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <index referenceId="AHSAN_GUEST_RETURN_REQUEST_ORDER_ID" indexType="btree">
+            <column name="order_id"/>
+        </index>
+        <index referenceId="AHSAN_GUEST_RETURN_REQUEST_STATUS" indexType="btree">
+            <column name="status"/>
+        </index>
+    </table>
+    <table name="ahsan_guest_return_item" resource="sales" engine="innodb" comment="Guest Return Request Items">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Item ID"/>
+        <column xsi:type="int" name="request_id" unsigned="true" nullable="false" comment="Return Request ID"/>
+        <column xsi:type="int" name="order_item_id" unsigned="true" nullable="false" comment="Sales Order Item ID"/>
+        <column xsi:type="varchar" name="sku" length="64" nullable="false" comment="SKU"/>
+        <column xsi:type="varchar" name="name" length="255" nullable="true" comment="Product Name"/>
+        <column xsi:type="decimal" name="qty" scale="4" precision="12" unsigned="false" nullable="false" default="0" comment="Qty To Return"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="AHSAN_GUEST_RETURN_ITEM_REQUEST_ID_AHSAN_GUEST_RETURN_REQUEST_ENTITY_ID"
+                    table="ahsan_guest_return_item" column="request_id"
+                    referenceTable="ahsan_guest_return_request" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <index referenceId="AHSAN_GUEST_RETURN_ITEM_ORDER_ITEM_ID" indexType="btree">
+            <column name="order_item_id"/>
+        </index>
+    </table>
+</schema>

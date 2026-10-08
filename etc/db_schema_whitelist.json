@@ -1,0 +1,43 @@
+{
+    "ahsan_guest_return_request": {
+        "column": {
+            "entity_id": true,
+            "order_id": true,
+            "order_increment_id": true,
+            "store_id": true,
+            "customer_email": true,
+            "customer_name": true,
+            "reason": true,
+            "comment": true,
+            "items_summary": true,
+            "status": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "index": {
+            "AHSAN_GUEST_RETURN_REQUEST_ORDER_ID": true,
+            "AHSAN_GUEST_RETURN_REQUEST_STATUS": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "AHSAN_GUEST_RETURN_REQUEST_ORDER_ID_SALES_ORDER_ENTITY_ID": true
+        }
+    },
+    "ahsan_guest_return_item": {
+        "column": {
+            "entity_id": true,
+            "request_id": true,
+            "order_item_id": true,
+            "sku": true,
+            "name": true,
+            "qty": true
+        },
+        "index": {
+            "AHSAN_GUEST_RETURN_ITEM_ORDER_ITEM_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "AHSAN_GUEST_RETURN_ITEM_REQUEST_ID_AHSAN_GUEST_RETURN_REQUEST_ENTITY_ID": true
+        }
+    }
+}

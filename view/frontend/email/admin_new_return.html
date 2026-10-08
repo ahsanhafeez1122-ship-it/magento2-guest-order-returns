@@ -1,0 +1,20 @@
+<!--@subject {{trans "New guest return #%request_id (order #%order_increment_id)" request_id=$request_id order_increment_id=$order_increment_id}} @-->
+<!--@vars {
+"var request_id":"Return Request ID",
+"var order_increment_id":"Order Number",
+"var customer_name":"Customer Name",
+"var customer_email":"Customer Email",
+"var reason":"Reason",
+"var comment":"Comment",
+"var items_html|raw":"Items Table"
+} @-->
+
+<p>{{trans "A guest customer has requested a return."}}</p>
+<p>
+    <strong>{{trans "Order:"}}</strong> #{{var order_increment_id}}<br>
+    <strong>{{trans "Customer:"}}</strong> {{var customer_name}} ({{var customer_email}})<br>
+    <strong>{{trans "Reason:"}}</strong> {{var reason}}<br>
+    <strong>{{trans "Comment:"}}</strong> {{var comment}}
+</p>
+{{var items_html|raw}}
+<p>{{trans "Review it in the admin under Sales > Operations > Guest Returns."}}</p>

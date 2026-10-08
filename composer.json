@@ -1,0 +1,28 @@
+{
+    "name": "ahsanhafeez/module-guest-returns",
+    "description": "Magento 2 module: guest order lookup and self-service returns (RMA) for customers who checked out without an account.",
+    "type": "magento2-module",
+    "license": "MIT",
+    "keywords": ["magento2", "magento2-module", "rma", "returns", "guest-checkout", "order-lookup"],
+    "authors": [
+        {
+            "name": "Ahsan Hafeez",
+            "homepage": "https://github.com/ahsanhafeez1122-ship-it"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "magento/framework": "^103.0",
+        "magento/module-backend": "*",
+        "magento/module-customer": "*",
+        "magento/module-sales": "*",
+        "magento/module-store": "*",
+        "magento/module-ui": "*"
+    },
+    "autoload": {
+        "files": ["registration.php"],
+        "psr-4": {
+            "AhsanHafeez\\GuestReturns\\": ""
+        }
+    }
+}

@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">guestreturns_request_listing.guestreturns_request_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>guestreturns_request_columns</spinner>
+        <deps>
+            <dep>guestreturns_request_listing.guestreturns_request_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="guestreturns_request_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">entity_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>AhsanHafeez_GuestReturns::requests</aclResource>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider"
+                      name="guestreturns_request_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters"/>
+        <massaction name="listing_massaction">
+            <action name="approve">
+                <settings>
+                    <url path="guestreturns/request/massStatus">
+                        <param name="status">approved</param>
+                    </url>
+                    <type>approve</type>
+                    <label translate="true">Approve</label>
+                    <confirm>
+                        <message translate="true">Approve the selected returns and email the customers?</message>
+                        <title translate="true">Approve returns</title>
+                    </confirm>
+                </settings>
+            </action>
+            <action name="reject">
+                <settings>
+                    <url path="guestreturns/request/massStatus">
+                        <param name="status">rejected</param>
+                    </url>
+                    <type>reject</type>
+                    <label translate="true">Reject</label>
+                    <confirm>
+                        <message translate="true">Reject the selected returns and email the customers?</message>
+                        <title translate="true">Reject returns</title>
+                    </confirm>
+                </settings>
+            </action>
+            <action name="complete">
+                <settings>
+                    <url path="guestreturns/request/massStatus">
+                        <param name="status">completed</param>
+                    </url>
+                    <type>complete</type>
+                    <label translate="true">Mark as Completed</label>
+                </settings>
+            </action>
+        </massaction>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="guestreturns_request_columns">
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>entity_id</indexField>
+            </settings>
+        </selectionsColumn>
+        <column name="entity_id" sortOrder="10">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Return #</label>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+        <column name="order_increment_id" sortOrder="20">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Order #</label>
+            </settings>
+        </column>
+        <column name="customer_name" sortOrder="30">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Customer</label>
+            </settings>
+        </column>
+        <column name="customer_email" sortOrder="40">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Email</label>
+            </settings>
+        </column>
+        <column name="items_summary" sortOrder="50">
+            <settings>
+                <label translate="true">Items</label>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+        <column name="reason" sortOrder="60">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Reason</label>
+            </settings>
+        </column>
+        <column name="status" component="Magento_Ui/js/grid/columns/select" sortOrder="70">
+            <settings>
+                <options class="AhsanHafeez\GuestReturns\Model\Source\Status"/>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <label translate="true">Status</label>
+            </settings>
+        </column>
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date" sortOrder="80">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Requested</label>
+            </settings>
+        </column>
+    </columns>
+</listing>

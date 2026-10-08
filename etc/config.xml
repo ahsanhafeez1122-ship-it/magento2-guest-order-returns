@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <guest_returns>
+            <general>
+                <enabled>1</enabled>
+                <return_window_days>30</return_window_days>
+                <reasons>Damaged on arrival
+Wrong item sent
+Not as described
+No longer needed
+Other</reasons>
+            </general>
+            <security>
+                <max_attempts>5</max_attempts>
+                <attempt_window_minutes>15</attempt_window_minutes>
+                <session_lifetime_minutes>30</session_lifetime_minutes>
+            </security>
+            <email>
+                <enabled>1</enabled>
+                <sender_identity>general</sender_identity>
+                <customer_template>guest_returns_email_customer_template</customer_template>
+                <status_template>guest_returns_email_status_template</status_template>
+                <admin_template>guest_returns_email_admin_template</admin_template>
+                <admin_recipient/>
+            </email>
+        </guest_returns>
+    </default>
+</config>

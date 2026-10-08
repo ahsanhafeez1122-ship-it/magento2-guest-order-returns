@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="guest_returns" translate="label" sortOrder="900" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Guest Returns</label>
+            <tab>sales</tab>
+            <resource>AhsanHafeez_GuestReturns::config</resource>
+            <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Guest Order Lookup and Returns</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="return_window_days" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Return Window (days)</label>
+                    <comment>Counted from the date of the latest shipment on the order.</comment>
+                    <validate>required-entry validate-digits validate-greater-than-zero</validate>
+                </field>
+                <field id="reasons" translate="label comment" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Return Reasons</label>
+                    <comment>One reason per line. Shown to the customer as a dropdown.</comment>
+                    <validate>required-entry</validate>
+                </field>
+            </group>
+            <group id="security" translate="label" sortOrder="20" showInDefault="1">
+                <label>Lookup Security</label>
+                <field id="max_attempts" translate="label comment" type="text" sortOrder="10" showInDefault="1">
+                    <label>Max Failed Lookups</label>
+                    <comment>After this many failed lookups the form is blocked for the window below.</comment>
+                    <validate>required-entry validate-digits validate-greater-than-zero</validate>
+                </field>
+                <field id="attempt_window_minutes" translate="label" type="text" sortOrder="20" showInDefault="1">
+                    <label>Failed Lookup Window (minutes)</label>
+                    <validate>required-entry validate-digits validate-greater-than-zero</validate>
+                </field>
+                <field id="session_lifetime_minutes" translate="label comment" type="text" sortOrder="30" showInDefault="1">
+                    <label>Verified Order Session Lifetime (minutes)</label>
+                    <comment>How long the customer can view the order after a successful lookup.</comment>
+                    <validate>required-entry validate-digits validate-greater-than-zero</validate>
+                </field>
+            </group>
+            <group id="email" translate="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Emails</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Send Emails</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="sender_identity" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                <field id="customer_template" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Request Received Template (customer)</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="status_template" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Status Changed Template (customer)</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="admin_template" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>New Request Template (store team)</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="admin_recipient" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Store Team Recipient</label>
+                    <comment>Leave empty to skip the store team email.</comment>
+                    <validate>validate-email</validate>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

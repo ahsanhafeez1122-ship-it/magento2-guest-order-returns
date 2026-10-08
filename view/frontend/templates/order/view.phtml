@@ -1,0 +1,123 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \AhsanHafeez\GuestReturns\ViewModel\OrderView $viewModel
+ */
+$viewModel = $block->getData('view_model');
+$order = $viewModel->getOrder();
+if (!$order) {
+    return;
+}
+$eligibility = $viewModel->getEligibility();
+$tracking = $viewModel->getTracking();
+$requests = $viewModel->getExistingRequests();
+?>
+<div class="guest-returns guest-returns-order">
+    <div class="block">
+        <div class="block-title"><strong><?= $escaper->escapeHtml(__('Order #%1', $order->getIncrementId())) ?></strong></div>
+        <div class="block-content">
+            <p>
+                <?= $escaper->escapeHtml(__('Placed on %1', $viewModel->formatDate($order->getCreatedAt()))) ?> ·
+                <?= $escaper->escapeHtml(__('Status: %1', $order->getStatusLabel())) ?>
+            </p>
+            <?php if ($tracking): ?>
+                <ul class="guest-returns-tracking">
+                    <?php foreach ($tracking as $track): ?>
+                        <li><?= $escaper->escapeHtml($track['carrier']) ?>: <strong><?= $escaper->escapeHtml($track['number']) ?></strong></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <?php if ($requests): ?>
+        <div class="block">
+            <div class="block-title"><strong><?= $escaper->escapeHtml(__('Your return requests')) ?></strong></div>
+            <div class="block-content">
+                <ul>
+                    <?php foreach ($requests as $request): ?>
+                        <li>
+                            <?= $escaper->escapeHtml(__('#%1 · %2 · %3', $request->getId(), $request->getItemsSummary(), $viewModel->getStatusLabel($request->getStatus()))) ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <div class="block">
+        <div class="block-title"><strong><?= $escaper->escapeHtml(__('Return items')) ?></strong></div>
+        <div class="block-content">
+            <?php if (!$eligibility->eligible): ?>
+                <p class="message info"><span><?= $escaper->escapeHtml(__($eligibility->customerMessage())) ?></span></p>
+            <?php else: ?>
+                <p><?= $escaper->escapeHtml(__('You can request a return until %1.', $viewModel->formatDeadline())) ?></p>
+                <form class="form" method="post" action="<?= $escaper->escapeUrl($viewModel->getSubmitUrl()) ?>" data-mage-init='{"validation":{}}'>
+                    <?= $block->getBlockHtml('formkey') ?>
+                    <div class="table-wrapper">
+                        <table class="data table">
+                            <thead>
+                            <tr>
+                                <th scope="col"><?= $escaper->escapeHtml(__('Product')) ?></th>
+                                <th scope="col"><?= $escaper->escapeHtml(__('SKU')) ?></th>
+                                <th scope="col"><?= $escaper->escapeHtml(__('Price')) ?></th>
+                                <th scope="col"><?= $escaper->escapeHtml(__('Qty to return')) ?></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($order->getAllVisibleItems() as $item):
+                                $max = $viewModel->getReturnableQty((int) $item->getItemId()); ?>
+                                <tr>
+                                    <td><?= $escaper->escapeHtml($item->getName()) ?></td>
+                                    <td><?= $escaper->escapeHtml($item->getSku()) ?></td>
+                                    <td><?= /* @noEscape */ $viewModel->formatPrice((float) $item->getPriceInclTax()) ?></td>
+                                    <td>
+                                        <?php if ($max > 0): ?>
+                                            <label class="no-display" for="qty-<?= (int) $item->getItemId() ?>"><?= $escaper->escapeHtml(__('Qty to return')) ?></label>
+                                            <input id="qty-<?= (int) $item->getItemId() ?>" type="number" class="input-text qty"
+                                                   name="qty[<?= (int) $item->getItemId() ?>]" min="0" max="<?= (int) $max ?>" step="1" value="0">
+                                            <small><?= $escaper->escapeHtml(__('of %1', $max)) ?></small>
+                                        <?php else: ?>
+                                            <span><?= $escaper->escapeHtml(__('Not returnable')) ?></span>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <fieldset class="fieldset">
+                        <div class="field required">
+                            <label class="label" for="guest-returns-reason"><span><?= $escaper->escapeHtml(__('Reason')) ?></span></label>
+                            <div class="control">
+                                <select id="guest-returns-reason" name="reason" data-validate='{"required":true}'>
+                                    <option value=""><?= $escaper->escapeHtml(__('Choose a reason')) ?></option>
+                                    <?php foreach ($viewModel->getReasons() as $reason): ?>
+                                        <option value="<?= $escaper->escapeHtmlAttr($reason) ?>"><?= $escaper->escapeHtml(__($reason)) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="guest-returns-comment"><span><?= $escaper->escapeHtml(__('Anything we should know? (optional)')) ?></span></label>
+                            <div class="control">
+                                <textarea id="guest-returns-comment" name="comment" rows="3" maxlength="1000"></textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="actions-toolbar">
+                        <div class="primary">
+                            <button type="submit" class="action submit primary"><span><?= $escaper->escapeHtml(__('Send return request')) ?></span></button>
+                        </div>
+                    </div>
+                </form>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <form method="post" action="<?= $escaper->escapeUrl($viewModel->getLogoutUrl()) ?>">
+        <?= $block->getBlockHtml('formkey') ?>
+        <button type="submit" class="action secondary"><span><?= $escaper->escapeHtml(__('Look up a different order')) ?></span></button>
+    </form>
+</div>

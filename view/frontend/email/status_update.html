@@ -1,0 +1,15 @@
+<!--@subject {{trans "Update on return request #%request_id" request_id=$request_id}} @-->
+<!--@vars {
+"var request_id":"Return Request ID",
+"var order_increment_id":"Order Number",
+"var customer_name":"Customer Name",
+"var status_label":"New Status"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<p>{{trans "Hi %customer_name," customer_name=$customer_name}}</p>
+<p>{{trans "Your return request #%request_id for order #%order_increment_id is now: %status_label." request_id=$request_id order_increment_id=$order_increment_id status_label=$status_label}}</p>
+<p>{{trans "Reply to this email if you have any questions."}}</p>
+
+{{template config_path="design/email/footer_template"}}
